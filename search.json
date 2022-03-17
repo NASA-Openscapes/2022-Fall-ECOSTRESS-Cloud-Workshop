@@ -175,6 +175,13 @@
     "text": "Print the content of an example file\nLoad and plot one subset.\n\nfrom glob import glob\nfns_local=sorted(glob('subsets/*nc'))\n\ndata=xr.open_dataset(fns_local[10])\ndata\n\nLet us look at one error field “simulated_error_troposphere”.\n\nplt.scatter(data['longitude'],data['latitude'],s=1,c=data['simulated_true_ssh_karin'])\n\n\nPlease engage with PODAAC by sharing your experience, sending feedback, and asking questions, either through podaac@podaac.jpl.nasa.gov or any of the PODAAC team members who you feel comfortable to communicate. Engagement leads to better services. Go SWOT!"
   },
   {
+    "objectID": "tutorials/00_Setup.html",
+    "href": "tutorials/00_Setup.html",
+    "title": "00. Setup for tutorials",
+    "section": "",
+    "text": "This tutorial will help you set up your JupyterHub (or Hub) with tutorials and other materials from our Cloud Workshop folder.."
+  },
+  {
     "objectID": "tutorials/00_Setup.html#step-1.-login-to-the-hub",
     "href": "tutorials/00_Setup.html#step-1.-login-to-the-hub",
     "title": "00. Setup for tutorials",
@@ -362,6 +369,13 @@
     "title": "2022 SWOT Oceanography Cloud Workshop",
     "section": "A final word…",
     "text": "A final word…\nAccessing data completely from S3 and in memory are affected by various things.\n\nThe format of the data - archive formats like NetCDF, GEOTIFF, HDF vs cloud optimized data structures (Zarr, kerchunk, COG). Cloud formats are made for accessing only the pieces of data of interest needed at the time of the request (e.g. a subset, timestep, etc).\nThe internal structure of the data. Tools like xarray make a lot of assumptions about how to open and read a file. Sometimes the internals don’t fit the xarray ‘mould’ and we need to continue to work with data providers and software providers to make these two sides work together. Level 2 data (non-gridded), specifically, suffers from some of the assumptions made."
+  },
+  {
+    "objectID": "schedule.html",
+    "href": "schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "The SWOT Oceanography Cloud Workshop will take place virtually March 16-17, from 9am-1pm PST / 12-4pm EST.\nSee Prerequisites & Homework for pre-workshop preparation.\nWebEx links will be shared directly with this group via a (calendar) meeting invite."
   },
   {
     "objectID": "schedule.html#workshop-schedule",
