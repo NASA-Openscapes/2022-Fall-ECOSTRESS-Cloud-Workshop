@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.105">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>2022 SWOT Oceanography Cloud Workshop – finding_collection_s3_location</title>
+  <title>2022 ECOSTRESS Cloud Workshop – finding_collection_s3_location</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -125,7 +125,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">2022 SWOT Oceanography Cloud Workshop</span>
+    <span class="navbar-title">2022 ECOSTRESS Cloud Workshop</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -148,19 +148,9 @@
     <a class="dropdown-item" href="../schedule.html">
  <span class="dropdown-text">Schedule</span></a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Prerequisites &amp; Homework</li>
         <li>
-    <a class="dropdown-item" href="../prerequisites/01_Earthdata_Search.html">
- <span class="dropdown-text">01. Earthdata Search</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../prerequisites/02_NASA_Earthdata_Authentication.html">
- <span class="dropdown-text">02. Authentication for NASA Earthdata</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../prerequisites/03_download.html">
- <span class="dropdown-text">03. Download with PO.DAAC data-subscriber</span></a>
+    <a class="dropdown-item" href="../prerequisites/index.html">
+ <span class="dropdown-text">Prerequisites</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Tutorials</li>
@@ -169,20 +159,28 @@
  <span class="dropdown-text">Tutorials Overview</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../tutorials/00_Setup.html">
- <span class="dropdown-text">00. Setup for tutorials</span></a>
+    <a class="dropdown-item" href="../tutorials/Earthdata_search.html">
+ <span class="dropdown-text">Earthdata Search Client</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../tutorials/01_Direct_Access_SWOT_sim.html">
- <span class="dropdown-text">01. Direct cloud data access</span></a>
+    <a class="dropdown-item" href="../tutorials/Getting_started_setup.html">
+ <span class="dropdown-text">Getting Started</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../tutorials/02_Subset_SWOT_sim.html">
- <span class="dropdown-text">02. Using Harmony to Subset SWOT Simulated Data</span></a>
+    <a class="dropdown-item" href="../tutorials/Intro_xarray_hvplot.html">
+ <span class="dropdown-text">Introduction to xarray</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../tutorials/03_Timeseries_SWOT_sim.html">
- <span class="dropdown-text">03. Build a Time Series of SWOT Simulated Data</span></a>
+    <a class="dropdown-item" href="../how-tos/authentication/NASA_Earthdata_Authentication.html">
+ <span class="dropdown-text">NASA Earthdata Authentication</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/Data_Discovery_CMR_API.html">
+ <span class="dropdown-text">Data Discovery - CMR API</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/Data_Discovery_CMR-STAC_API.html">
+ <span class="dropdown-text">Data Discovery - CMR STAC API</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Further Resources</li>
@@ -197,7 +195,7 @@
     </ul>
   </li>
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/podaac/2022-SWOT-Ocean-Cloud-Workshop"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/NASA-Openscapes/2022-ECOSTRESS-Cloud-Workshop"><i class="bi bi-github" role="img">
 </i> 
  </a>
   </li>  
@@ -224,7 +222,7 @@
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../">
-      <img src="../podaac-logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../img/ecostress_lpdaac_image.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
     <div class="sidebar-menu-container"> 
@@ -254,31 +252,11 @@
   <a href="../schedule.html" class="sidebar-item-text sidebar-link">Schedule</a>
   </div>
 </li>
-        <li class="sidebar-item sidebar-item-section">
-    <div class="sidebar-item-container"> 
-        <a href="../prerequisites/index.html" class="sidebar-item-text sidebar-link">Prerequisites &amp; Homework</a>
-      <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-prerequisitesindexmd" aria-expanded="false">
-        <i class="bi bi-chevron-right ms-2"></i>
-      </a>
-    </div>
-    <ul id="quarto-sidebar-section-prerequisitesindexmd" class="collapse list-unstyled sidebar-section depth1 ">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../prerequisites/01_Earthdata_Search.html" class="sidebar-item-text sidebar-link">01. Earthdata Search</a>
+  <a href="../prerequisites/index.html" class="sidebar-item-text sidebar-link">Prerequisites</a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../prerequisites/02_NASA_Earthdata_Authentication.html" class="sidebar-item-text sidebar-link">02. Authentication for NASA Earthdata</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../prerequisites/03_download.html" class="sidebar-item-text sidebar-link">03. Download with PO.DAAC data-subscriber</a>
-  </div>
-</li>
-    </ul>
-  </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
         <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-tutorials" aria-expanded="false">Tutorials</a>
@@ -294,22 +272,32 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorials/00_Setup.html" class="sidebar-item-text sidebar-link">00. Setup for tutorials</a>
+  <a href="../tutorials/Earthdata_search.html" class="sidebar-item-text sidebar-link">Earthdata Search Client</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorials/01_Direct_Access_SWOT_sim.html" class="sidebar-item-text sidebar-link">01. Direct cloud data access</a>
+  <a href="../tutorials/Getting_started_setup.html" class="sidebar-item-text sidebar-link">Getting Started</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorials/02_Subset_SWOT_sim.html" class="sidebar-item-text sidebar-link">02. Using Harmony to Subset SWOT Simulated Data</a>
+  <a href="../tutorials/Intro_xarray_hvplot.html" class="sidebar-item-text sidebar-link">Introduction to xarray</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorials/03_Timeseries_SWOT_sim.html" class="sidebar-item-text sidebar-link">03. Build a Time Series of SWOT Simulated Data</a>
+  <a href="../how-tos/authentication/NASA_Earthdata_Authentication.html" class="sidebar-item-text sidebar-link">NASA Earthdata Authentication</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorials/Data_Discovery_CMR_API.html" class="sidebar-item-text sidebar-link">Data Discovery - CMR API</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorials/Data_Discovery_CMR-STAC_API.html" class="sidebar-item-text sidebar-link">Data Discovery - CMR STAC API</a>
   </div>
 </li>
     </ul>
@@ -364,7 +352,7 @@
 <li><a href="#finding-s3-location-from-cmr" class="nav-link" data-scroll-target="#finding-s3-location-from-cmr">Finding S3 Location from CMR</a></li>
 </ul></li>
 </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/podaac/2022-SWOT-Ocean-Cloud-Workshop/edit/main/tutorials/Finding_collection_s3_location.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/podaac/2022-SWOT-Ocean-Cloud-Workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/NASA-Openscapes/2022-ECOSTRESS-Cloud-Workshop/edit/main/tutorials/Finding_collection_s3_location.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/NASA-Openscapes/2022-ECOSTRESS-Cloud-Workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -609,7 +597,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center">PODAAC (2022). 2022 SWOT Oceanography Cloud Workshop</div>
+      <div class="nav-footer-center">LPDAAC &amp; JPL (2022). 2022 ECOSTRESS Cloud Workshop</div>
   </div>
 </footer>
 
