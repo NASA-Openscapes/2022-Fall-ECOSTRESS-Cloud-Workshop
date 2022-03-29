@@ -83,8 +83,8 @@
   <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="../site_libs/quarto-search/fuse.min.js"></script>
   <script src="../site_libs/quarto-search/quarto-search.js"></script>
-  <link href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_COG_Example.html" rel="next">
-  <link href="../tutorials/Data_Discovery_CMR_API.html" rel="prev">
+  <link href="../how-tos/data_access/Earthdata_Cloud__Single_File__HTTPS_Access_COG_Example.html" rel="next">
+  <link href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_COG_Example.html" rel="prev">
   <script src="../site_libs/quarto-html/quarto.js"></script>
   <script src="../site_libs/quarto-html/popper.min.js"></script>
   <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -180,10 +180,6 @@
   </li>  
         <li>
     <a class="dropdown-item" href="../tutorials/Data_Discovery_CMR_API.html">
- <span class="dropdown-text">Data Discovery - Finding Data with the CMR API</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../tutorials/Data_Discovery_CMR-STAC_API.html">
  <span class="dropdown-text">Data Discovery - Finding Data with the CMR STAC API</span></a>
   </li>  
         <li>
@@ -192,6 +188,10 @@
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Additional Resources</li>
+        <li>
+    <a class="dropdown-item" href="../tutorials/Data_Discovery_CMR-STAC_API.html">
+ <span class="dropdown-text">02. Data Discovery with CMR-STAC API</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="../how-tos/data_access/Earthdata_Cloud__Single_File__HTTPS_Access_COG_Example.html">
  <span class="dropdown-text">Accessing Cloud Optimized GeoTIFF (COG) - HTTPS Example</span></a>
@@ -279,12 +279,12 @@
 </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-tutorials" aria-expanded="true">Tutorials</a>
-      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-tutorials" aria-expanded="true">
+        <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-tutorials" aria-expanded="false">Tutorials</a>
+      <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-tutorials" aria-expanded="false">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
-    <ul id="quarto-sidebar-section-tutorials" class="collapse list-unstyled sidebar-section depth1 show">  
+    <ul id="quarto-sidebar-section-tutorials" class="collapse list-unstyled sidebar-section depth1 ">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../tutorials/index.html" class="sidebar-item-text sidebar-link">Tutorials Overview</a>
@@ -312,12 +312,7 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorials/Data_Discovery_CMR_API.html" class="sidebar-item-text sidebar-link">Data Discovery - Finding Data with the CMR API</a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../tutorials/Data_Discovery_CMR-STAC_API.html" class="sidebar-item-text sidebar-link active">Data Discovery - Finding Data with the CMR STAC API</a>
+  <a href="../tutorials/Data_Discovery_CMR_API.html" class="sidebar-item-text sidebar-link">Data Discovery - Finding Data with the CMR STAC API</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -329,12 +324,17 @@
   </li>
         <li class="sidebar-item sidebar-item-section">
     <div class="sidebar-item-container"> 
-        <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-additional-resources" aria-expanded="false">Additional Resources</a>
-      <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-additional-resources" aria-expanded="false">
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-additional-resources" aria-expanded="true">Additional Resources</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-additional-resources" aria-expanded="true">
         <i class="bi bi-chevron-right ms-2"></i>
       </a>
     </div>
-    <ul id="quarto-sidebar-section-additional-resources" class="collapse list-unstyled sidebar-section depth1 ">  
+    <ul id="quarto-sidebar-section-additional-resources" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorials/Data_Discovery_CMR-STAC_API.html" class="sidebar-item-text sidebar-link active">02. Data Discovery with CMR-STAC API</a>
+  </div>
+</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../how-tos/data_access/Earthdata_Cloud__Single_File__HTTPS_Access_COG_Example.html" class="sidebar-item-text sidebar-link">Accessing Cloud Optimized GeoTIFF (COG) - HTTPS Example</a>
@@ -3237,13 +3237,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../tutorials/Data_Discovery_CMR_API.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data Discovery - Finding Data with the CMR API</span>
+      <a href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_COG_Example.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data Access - Direct S3 Access of Cloud Optimized GeoTIFF (COG) file</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_COG_Example.html" class="pagination-link">
-        <span class="nav-page-text">Data Access - Direct S3 Access of Cloud Optimized GeoTIFF (COG) file</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../how-tos/data_access/Earthdata_Cloud__Single_File__HTTPS_Access_COG_Example.html" class="pagination-link">
+        <span class="nav-page-text">Accessing Cloud Optimized GeoTIFF (COG) - HTTPS Example</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
