@@ -382,12 +382,14 @@
 <li><a href="#requirements" class="nav-link" data-scroll-target="#requirements">Requirements</a>
 <ul class="collapse">
 <li><a href="#earthdata-login" class="nav-link" data-scroll-target="#earthdata-login">1. Earthdata Login</a></li>
+<li><a href="#ecostress-early-adopter" class="nav-link" data-scroll-target="#ecostress-early-adopter">2. ECOSTRESS Early Adopter</a></li>
 </ul></li>
 <li><a href="#learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
 <li><a href="#what-is-cmr" class="nav-link" data-scroll-target="#what-is-cmr">What is CMR</a></li>
 <li><a href="#what-is-the-cmr-api" class="nav-link" data-scroll-target="#what-is-the-cmr-api">What is the CMR API</a></li>
 <li><a href="#getting-started-how-to-search-cmr-from-python" class="nav-link" data-scroll-target="#getting-started-how-to-search-cmr-from-python">Getting Started: How to search CMR from Python</a></li>
 <li><a href="#searching-for-granules" class="nav-link" data-scroll-target="#searching-for-granules">Searching for Granules</a></li>
+<li><a href="#get-urls-to-cloud-data-assets" class="nav-link" data-scroll-target="#get-urls-to-cloud-data-assets">Get URLs to cloud data assets</a></li>
 </ul></li>
 </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/NASA-Openscapes/2022-ECOSTRESS-Cloud-Workshop/edit/main/tutorials/Data_Discovery_CMR_API_EDL_Token.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/NASA-Openscapes/2022-ECOSTRESS-Cloud-Workshop/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -407,6 +409,10 @@
 <section id="earthdata-login" class="level3">
 <h3 class="anchored" data-anchor-id="earthdata-login">1. Earthdata Login</h3>
 <p>An Earthdata Login account is required to access data, as well as discover restricted data, from the NASA Earthdata system. Thus, to access NASA data, you need Earthdata Login. Please visit https://urs.earthdata.nasa.gov to register and manage your Earthdata Login account. This account is free to create and only takes a moment to set up.</p>
+</section>
+<section id="ecostress-early-adopter" class="level3">
+<h3 class="anchored" data-anchor-id="ecostress-early-adopter">2. ECOSTRESS Early Adopter</h3>
+<p>ECOSTRESS build 7 is only open to individuals identified as early adopters. As such ECOSTRESS discovery and access is managed by an access control list. If you are not on the access control list, you will not be able to complete the exercise as written below.</p>
 </section>
 </section>
 <section id="learning-objectives" class="level2">
@@ -434,67 +440,101 @@
 <p>The first step is to import python packages. We will use:<br>
 - <code>requests</code> This package does most of the work for us accessing the CMR API using HTTP methods. - <code>pprint</code> to <em>pretty print</em> the results of the search.</p>
 <p>A more in-depth tutorial on <code>requests</code> is <a href="https://realpython.com/python-requests/">here</a></p>
-<div class="cell" data-tags="[]">
+<div class="cell" data-tags="[]" data-execution_count="1">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprint <span class="im">import</span> pprint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To conduct a search using the CMR API, <code>requests</code> needs the url for the root CMR search endpoint. We’ll assign this url to a python variable as a <em>string</em>.</p>
-<div class="cell">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>CMR_OPS <span class="op">=</span> <span class="st">'https://cmr.earthdata.nasa.gov/search'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>CMR allows search by <strong>collections</strong>, which are datasets, and <strong>granules</strong>, which are files that contain data. Many of the same search parameters can be used for collections and granules but the type of results returned differ. Search parameters can be found in the <a href="https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html">API Documentation</a>.</p>
 <p>Whether we search <strong>collections</strong> or <strong>granules</strong> is distinguished by adding <code>"collections"</code> or <code>"granules"</code> to the end of the CMR endpoint URL.</p>
 <p>We are going to search collections first, so we add <code>"collections"</code> to the URL. We are using a <code>python</code> format string in the examples below.</p>
-<div class="cell">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>CMR_OPS<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="st">"collections"</span><span class="sc">}</span><span class="ss">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this first example, I want to retrieve a list of <strong>ECOSTRESS</strong> collections in the Earthdata Cloud. This includes ECOSTRESS collections from build 7 which at the time of this tutorial, is hidden to all except early adopters. Because of this, an extra parameter needs to be passed in each CMR request that indicates you are part of the access list. An Earthdata Login token will be passed to the <code>token</code> parameter, which is generated using your Earthdata Login credentials.</p>
 <p>Two options are available to generate an Earthdata Login token. 1. Generate a token from the Earthdata Login interface by logging into Earthdata Login and Click Generate Token. 2. Programatically generate an Earthdata Login token. Use the <a href="../how-tos/authentication/NASA_Earthdata_Login_Token.html">NASA_Earthdata_Login_Token</a> notebook to generate and save a token for use in this notebook.</p>
 <p>We can read in our token after it has been generated and saved using the <a href="../how-tos/authentication/NASA_Earthdata_Login_Token.html">NASA_Earthdata_Login_Token</a> notebook. The json file produce can be found here: <code>/home/jovyan/.hidden_dir/edl_token.json</code>. We’ll read to token into a variable named <code>token</code>.</p>
-<div class="cell">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'../../.hidden_dir/edl_token.json'</span>) <span class="im">as</span> js:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    token <span class="op">=</span> json.load(js)[<span class="st">'access_token'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll want to get the content in <code>json</code> (pronounced “jason”) format, so I pass a dictionary to the header keyword argument to say that I want results returned as <code>json</code>.</p>
 <p>The <code>.get()</code> method is used to send this information to the CMR API. <code>get()</code> calls the HTTP method <strong>GET</strong>.</p>
-<div class="cell">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'cloud_hosted'</span>: <span class="st">'True'</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                            <span class="co">#'has_granules': 'True',</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                            <span class="co">#'project': 'ECOSTRESS',</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'token'</span>: token</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                        },</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>{</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Accept'</span>: <span class="st">'application/json'</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                        }</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'has_granules'</span>: <span class="st">'True'</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                        },</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>{</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Accept'</span>: <span class="st">'application/json'</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                        }</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The request returns a <code>Response</code> object.</p>
 <p>To check that our request was successful we can print the <code>response</code> variable we saved the request to.</p>
-<div class="cell">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="6">
+<pre><code>&lt;Response [200]&gt;</code></pre>
+</div>
 </div>
 <p>A <strong>200</strong> response is what we want. This means that the requests was successful. For more information on HTTP status codes see <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" class="uri">https://en.wikipedia.org/wiki/List_of_HTTP_status_codes</a></p>
 <p>A more explict way to check the status code is to use the <code>status_code</code> attribute. Both methods return a HTTP status code.</p>
-<div class="cell">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>response.status_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>response.status_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="7">
+<pre><code>200</code></pre>
+</div>
 </div>
 <p>The response from <code>requests.get</code> returns the results of the search and metadata about those results in the <code>headers</code>.</p>
 <p>More information about the <code>response</code> object can be found by typing <code>help(response)</code>.</p>
 <p><code>headers</code> contains useful information in a case-insensitive dictionary. We requested (above) that the information be return in json which means the object return is a dictionary in our Python environment. We’ll iterate through the returned dictionary, looping throught each field (<code>k</code>) and its associated value (<code>v</code>). For more on interating through dictionary object click <a href="https://realpython.com/iterate-through-dictionary-python/">here</a>.</p>
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> response.headers.items():</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, v <span class="kw">in</span> response.headers.items():</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>Content-Type: application/json;charset=utf-8
+Content-Length: 4518
+Connection: keep-alive
+Date: Fri, 08 Apr 2022 17:26:19 GMT
+X-Frame-Options: SAMEORIGIN
+Access-Control-Allow-Origin: *
+X-XSS-Protection: 1; mode=block
+CMR-Request-Id: 4af129b5-7119-4c6c-8772-3b5dab7ac964
+Strict-Transport-Security: max-age=31536000
+CMR-Search-After: [0.0,18400.0,"SENTINEL-1A_OCN","1",1214472977,1250]
+CMR-Hits: 1172
+Access-Control-Expose-Headers: CMR-Hits, CMR-Request-Id, X-Request-Id, CMR-Scroll-Id, CMR-Search-After, CMR-Timed-Out, CMR-Shapefile-Original-Point-Count, CMR-Shapefile-Simplified-Point-Count
+X-Content-Type-Options: nosniff
+CMR-Took: 194
+X-Request-Id: pW-PuXNWhMvuUsomy4h5mpMBxPIZQ1A4fuSGh_DZLtQL_y6fSrAZkQ==
+Vary: Accept-Encoding, User-Agent
+Content-Encoding: gzip
+Server: ServerTokens ProductOnly
+X-Cache: Miss from cloudfront
+Via: 1.1 e9c8cd6cad69627cb7c9d88123e6e2cc.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: HIO50-C2
+X-Amz-Cf-Id: pW-PuXNWhMvuUsomy4h5mpMBxPIZQ1A4fuSGh_DZLtQL_y6fSrAZkQ==</code></pre>
+</div>
 </div>
 <p>Each item in the dictionary can be accessed in the normal way you access a <code>python</code> dictionary but the keys uniquely case-insensitive. Let’s take a look at the commonly used <code>CMR-Hits</code> key.</p>
-<div class="cell">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'CMR-Hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'CMR-Hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="9">
+<pre><code>'1172'</code></pre>
+</div>
 </div>
 <p>Note that “cmr-hits” works as well!</p>
-<div class="cell">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="10">
+<pre><code>'1172'</code></pre>
+</div>
 </div>
 <p>In some situations the response to your query can return a very large number of result, some of which may not be relevant. We can add additional <a href="https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html">query parameters</a> to restrict the information returned. We’re going to restrict the search by the <code>provider</code> parameter.</p>
 <p>You can modify the code below to explore all Earthdata data products hosted by the various providers. When searching by provider, use <em>Cloud Provider</em> to search for cloud-hosted datasets and <em>On-Premises Provider</em> to search for datasets archived at the DAACs. A partial list of providers is given below.</p>
@@ -571,113 +611,540 @@
 </tbody>
 </table>
 <p>We’ll assign the provider to a variable as a <em>string</em> and insert the variable into the parameter argument in the request. We’ll also assign the term ‘ECOSTRESS’ to a varible so we don’t need to repeatedly add it to the requests parameters.</p>
-<div class="cell">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>provider <span class="op">=</span> <span class="st">'LPDAAC_ECS'</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">'ECOSTRESS'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>provider <span class="op">=</span> <span class="st">'LPCLOUD'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>project <span class="op">=</span> <span class="st">'ECOSTRESS'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                            <span class="co">#'cloud_hosted': 'True',</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'has_granules'</span>: <span class="st">'True'</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'provider'</span>: provider,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'project'</span>: project,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'token'</span>: token</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                        },</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>{</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Accept'</span>: <span class="st">'application/json'</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                        }</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                       )</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Authorization'</span>: <span class="ss">f'Bearer </span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accept'</span>: <span class="st">'application/json'</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Search results are contained in the <strong>content</strong> part of the Response object. However, <code>response.content</code> returns information in bytes.</p>
-<div class="cell" data-tags="[]">
-<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>response.content</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A more convenient way to work with this information is to use <code>json</code> formatted data. I’m using pretty print <code>pprint</code> to print the data in an easy to read way.</p>
-<p><strong>Note</strong> - <code>response.json()</code> will format our response in <code>json</code> - <code>['feed']['entry']</code> returns all entries that CMR returned in the request (not the same as <strong>CMR-Hits</strong>) - <code>[0]</code> returns the first entry. Reminder that python starts indexing at 0, not 1!</p>
-<div class="cell">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pprint(response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The first response contains a lot more information than we need. We’ll narrow in on a few fields to get a feel for what we have. We’ll print the name of the dataset (<code>dataset_id</code>) and the concept id (<code>id</code>). We can build this variable and print statement like we did above with the <code>url</code> variable.</p>
-<div class="cell">
-<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection <span class="kw">in</span> collections:</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>collection[<span class="st">"archive_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In some situations we may be expecting a certain number of results. Note here that we only have 10 datasets are printed. We know from <code>CMR-Hits</code> that there are more than 10 datasets. This is because CMR restricts the number of results returned by each query. The default is 10 but it can be set to a maximum of 2000. We’ll set the <code>page_size</code> parameter to 25 so we return all results in a single query.</p>
-<div class="cell">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                            <span class="co">#'cloud_hosted': 'True',</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'cloud_hosted'</span>: <span class="st">'True'</span>,</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'has_granules'</span>: <span class="st">'True'</span>,</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'provider'</span>: provider,</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'project'</span>: project,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'token'</span>: token,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'page_size'</span>: <span class="dv">25</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                        },</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>{</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Accept'</span>: <span class="st">'application/json'</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                        }</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                       )</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                        },</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>headers</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="13">
+<pre><code>&lt;Response [200]&gt;</code></pre>
 </div>
-<div class="cell" data-tags="[]">
-<div class="sourceCode" id="cb19"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="14">
+<pre><code>'13'</code></pre>
+</div>
+</div>
+<p>Search results are contained in the <strong>content</strong> part of the Response object. However, <code>response.content</code> returns information in bytes.</p>
+<div class="cell" data-tags="[]" data-execution_count="15">
+<div class="sourceCode" id="cb22"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>response.content</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="15">
+<pre><code>b'{"feed":{"updated":"2022-04-08T17:26:20.222Z","id":"https://cmr.earthdata.nasa.gov:443/search/collections.json?cloud_hosted=True&amp;has_granules=True&amp;provider=LPCLOUD&amp;project=ECOSTRESS","title":"ECHO dataset metadata","entry":[{"processing_level_id":"1A","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:51:15.164Z","dataset_id":"ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1A_BB","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076119270-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO1ABB+V001"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO1ABB.001/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"}]},{"processing_level_id":"1A","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.069Z","dataset_id":"ECOSTRESS Swath Engineering Data Instantaneous L1A Global V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1A_ENG","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Engineering Data Instantaneous L1A Global V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076086331-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO1AENG+V001"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO1AENG.001/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"}]},{"processing_level_id":"1A","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.088Z","dataset_id":"ECOSTRESS Swath Pixel Data Instantaneous L1A Global 38 x 69 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1A_PIX","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Pixel Data Instantaneous L1A Global 38 x 69 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076118669-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L1A_PIX+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO_L1A_PIX.002/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"}]},{"processing_level_id":"1B","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:51:15.169Z","dataset_id":"ECOSTRESS Swath Attitude and Ephemeris Instantaneous L1B Global V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1B_ATT","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Attitude and Ephemeris Instantaneous L1B Global V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076117996-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L1B_ATT+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO_L1B_ATT.002/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L1B_ATT.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v2.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L1B_ATT.002"}]},{"processing_level_id":"1B","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.081Z","dataset_id":"ECOSTRESS Swath Geolocation Instantaneous L1B Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1B_GEO","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Geolocation Instantaneous L1B Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076087338-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO1BGEO+V001"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO1BGEO.001/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO1BGEO.001"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO1BGEO.001"}]},{"processing_level_id":"1B","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.084Z","dataset_id":"ECOSTRESS Swath Top of Atmosphere Calibrated Radiance Instantaneous L1B Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L1B_RAD","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Swath Top of Atmosphere Calibrated Radiance Instantaneous L1B Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076116385-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L1B_RAD+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO_L1B_RAD.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L1B_RAD.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L1B_RAD.002"}]},{"processing_level_id":"2","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:50.969Z","dataset_id":"ECOSTRESS Gridded Cloud Mask Instantaneous L2 Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L2G_CLOUD","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Gridded Cloud Mask Instantaneous L2 Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076113561-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L2G_CLOUD+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L2G_CLOUD.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"}]},{"processing_level_id":"2","boxes":["-90 -180 90 180"],"time_start":"2018-07-09T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.008Z","dataset_id":"ECOSTRESS Gridded Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L2G_LSTE","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Gridded Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076113037-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L2G_LSTE+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO_L2G_LSTE.002/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L2G_LSTE.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"}]},{"processing_level_id":"2","boxes":["-90 -180 90 180"],"time_start":"2018-05-07T00:00:00.000Z","version_id":"002","dataset_id":"ECOSTRESS Gridded Top of Atmosphere Calibrated Radiance Instantaneous L2 Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L2G_RAD","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Gridded Top of Atmosphere Calibrated Radiance Instantaneous L2 Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2074824682-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":false,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO_L2G_RAD+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO_L2G_RAD.002/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L2G_RAD.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L2G_RAD.002"}]},{"processing_level_id":"2","boxes":["-90 -180 90 180"],"time_start":"2014-01-01T00:00:00.000Z","version_id":"002","updated":"2021-06-23T16:50:51.108Z","dataset_id":"ECOSTRESS Tiled Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002","has_spatial_subsetting":false,"has_transforms":false,"has_variables":false,"data_center":"LPCLOUD","short_name":"ECO_L2T_LSTE","organizations":["LP DAAC","NASA/JPL/ECOSTRESS"],"title":"ECOSTRESS Tiled Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002","coordinate_system":"CARTESIAN","summary":"The ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station (ECOSTRESS) will measure the temperature of plants and use that information to better understand how much water plants need and how they respond to stress.","service_features":{"opendap":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"esi":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false},"harmony":{"has_formats":false,"has_variables":false,"has_transforms":false,"has_spatial_subsetting":false,"has_temporal_subsetting":false}},"orbit_parameters":{},"id":"C2076090826-LPCLOUD","has_formats":false,"score":1.32,"consortiums":["GEOSS","EOSDIS"],"original_format":"UMM_JSON","collection_data_type":"SCIENCE_QUALITY","archive_center":"LP DAAC","has_temporal_subsetting":false,"browse_flag":true,"platforms":["ISS"],"online_access_flag":true,"links":[{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://search.earthdata.nasa.gov/search?q=ECO2LSTE+V002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/data#","hreflang":"en-US","href":"https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO2LSTE.002/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://doi.org/10.5067/ECOSTRESS/ECO_L2T_LSTE.002"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/metadata#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/documentation#","hreflang":"en-US","href":"https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf"},{"rel":"http://esipfed.org/ns/fedsearch/1.1/browse#","hreflang":"en-US","href":"https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21247_032_19MCN_20220405T135253_0700_01/ECOv002_L2T_LSTE_21247_032_19MCN_20220405T135253_0700_01.png"}]}]}}'</code></pre>
+</div>
+</div>
+<p>A more convenient way to work with this information is to use <code>json</code> formatted data. I’m using pretty print <code>pprint</code> to print the data in an easy to read way.</p>
+<p><strong>Note</strong> - <code>response.json()</code> will format our response in <code>json</code> - <code>['feed']['entry']</code> returns all entries that CMR returned in the request (not the same as <strong>CMR-Hits</strong>) - <code>[0]</code> returns the first entry. Reminder that python starts indexing at 0, not 1!</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode" id="cb24"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pprint(response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{'archive_center': 'LP DAAC',
+ 'boxes': ['-90 -180 90 180'],
+ 'browse_flag': False,
+ 'collection_data_type': 'SCIENCE_QUALITY',
+ 'consortiums': ['GEOSS', 'EOSDIS'],
+ 'coordinate_system': 'CARTESIAN',
+ 'data_center': 'LPCLOUD',
+ 'dataset_id': 'ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m '
+               'V002',
+ 'has_formats': False,
+ 'has_spatial_subsetting': False,
+ 'has_temporal_subsetting': False,
+ 'has_transforms': False,
+ 'has_variables': False,
+ 'id': 'C2076119270-LPCLOUD',
+ 'links': [{'href': 'https://search.earthdata.nasa.gov/search?q=ECO1ABB+V001',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#'},
+           {'href': 'https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO1ABB.001/',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#'},
+           {'href': 'https://lpdaac.usgs.gov/',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#'}],
+ 'online_access_flag': True,
+ 'orbit_parameters': {},
+ 'organizations': ['LP DAAC', 'NASA/JPL/ECOSTRESS'],
+ 'original_format': 'UMM_JSON',
+ 'platforms': ['ISS'],
+ 'processing_level_id': '1A',
+ 'score': 1.32,
+ 'service_features': {'esi': {'has_formats': False,
+                              'has_spatial_subsetting': False,
+                              'has_temporal_subsetting': False,
+                              'has_transforms': False,
+                              'has_variables': False},
+                      'harmony': {'has_formats': False,
+                                  'has_spatial_subsetting': False,
+                                  'has_temporal_subsetting': False,
+                                  'has_transforms': False,
+                                  'has_variables': False},
+                      'opendap': {'has_formats': False,
+                                  'has_spatial_subsetting': False,
+                                  'has_temporal_subsetting': False,
+                                  'has_transforms': False,
+                                  'has_variables': False}},
+ 'short_name': 'ECO_L1A_BB',
+ 'summary': 'The ECOsystem Spaceborne Thermal Radiometer Experiment on Space '
+            'Station (ECOSTRESS) will measure the temperature of plants and '
+            'use that information to better understand how much water plants '
+            'need and how they respond to stress.',
+ 'time_start': '2014-01-01T00:00:00.000Z',
+ 'title': 'ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m V002',
+ 'updated': '2021-06-23T16:51:15.164Z',
+ 'version_id': '002'}</code></pre>
+</div>
+</div>
+<p>The first response contains a lot more information than we need. We’ll narrow in on a few fields to get a feel for what we have. We’ll print the name of the dataset (<code>dataset_id</code>) and the concept id (<code>id</code>). We can build this variable and print statement like we did above with the <code>url</code> variable.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode" id="cb26"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode" id="cb27"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection <span class="kw">in</span> collections:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>collection[<span class="st">"archive_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>LP DAAC | ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m V002 | C2076119270-LPCLOUD
+LP DAAC | ECOSTRESS Swath Engineering Data Instantaneous L1A Global V002 | C2076086331-LPCLOUD
+LP DAAC | ECOSTRESS Swath Pixel Data Instantaneous L1A Global 38 x 69 m V002 | C2076118669-LPCLOUD
+LP DAAC | ECOSTRESS Swath Attitude and Ephemeris Instantaneous L1B Global V002 | C2076117996-LPCLOUD
+LP DAAC | ECOSTRESS Swath Geolocation Instantaneous L1B Global 70 m V002 | C2076087338-LPCLOUD
+LP DAAC | ECOSTRESS Swath Top of Atmosphere Calibrated Radiance Instantaneous L1B Global 70 m V002 | C2076116385-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Cloud Mask Instantaneous L2 Global 70 m V002 | C2076113561-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | C2076113037-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Top of Atmosphere Calibrated Radiance Instantaneous L2 Global 70 m V002 | C2074824682-LPCLOUD
+LP DAAC | ECOSTRESS Tiled Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | C2076090826-LPCLOUD</code></pre>
+</div>
+</div>
+<p>In some situations we may be expecting a certain number of results. Note here that we only have 10 datasets are printed. We know from <code>CMR-Hits</code> that there are more than 10 datasets. This is because CMR restricts the number of results returned by each query. The default is 10 but it can be set to a maximum of 2000. We’ll set the <code>page_size</code> parameter to 25 so we return all results in a single query.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode" id="cb29"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'cloud_hosted'</span>: <span class="st">'True'</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'has_granules'</span>: <span class="st">'True'</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'provider'</span>: provider,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'project'</span>: project,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'page_size'</span>: <span class="dv">25</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                        },</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>headers</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="19">
+<pre><code>&lt;Response [200]&gt;</code></pre>
+</div>
+</div>
+<div class="cell" data-tags="[]" data-execution_count="20">
+<div class="sourceCode" id="cb31"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>response.headers[<span class="st">'cmr-hits'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="20">
+<pre><code>'13'</code></pre>
+</div>
 </div>
 <p>Now, when we can re-run our for loop for the collections we now have all of the available collections listed.</p>
-<div class="cell">
-<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection <span class="kw">in</span> collections:</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>collection[<span class="st">"archive_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode" id="cb33"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>collections <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> collection <span class="kw">in</span> collections:</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>collection[<span class="st">"archive_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>collection[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>LP DAAC | ECOSTRESS Swath Black Body Instantaneous L1A Global 38 x 69 m V002 | C2076119270-LPCLOUD
+LP DAAC | ECOSTRESS Swath Engineering Data Instantaneous L1A Global V002 | C2076086331-LPCLOUD
+LP DAAC | ECOSTRESS Swath Pixel Data Instantaneous L1A Global 38 x 69 m V002 | C2076118669-LPCLOUD
+LP DAAC | ECOSTRESS Swath Attitude and Ephemeris Instantaneous L1B Global V002 | C2076117996-LPCLOUD
+LP DAAC | ECOSTRESS Swath Geolocation Instantaneous L1B Global 70 m V002 | C2076087338-LPCLOUD
+LP DAAC | ECOSTRESS Swath Top of Atmosphere Calibrated Radiance Instantaneous L1B Global 70 m V002 | C2076116385-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Cloud Mask Instantaneous L2 Global 70 m V002 | C2076113561-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | C2076113037-LPCLOUD
+LP DAAC | ECOSTRESS Gridded Top of Atmosphere Calibrated Radiance Instantaneous L2 Global 70 m V002 | C2074824682-LPCLOUD
+LP DAAC | ECOSTRESS Tiled Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | C2076090826-LPCLOUD
+LP DAAC | ECOSTRESS Tiled Top of Atmosphere Calibrated Radiance Instantaneous L2 Global 70 m V002 | C2074842795-LPCLOUD
+LP DAAC | ECOSTRESS Swath Cloud Mask Instantaneous L2 Global 70 m V002 | C2076115306-LPCLOUD
+LP DAAC | ECOSTRESS Swath Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | C2076114664-LPCLOUD</code></pre>
+</div>
 </div>
 </section>
 <section id="searching-for-granules" class="level2">
 <h2 class="anchored" data-anchor-id="searching-for-granules">Searching for Granules</h2>
 <p>In NASA speak, Granules are files or groups of files. In this example, we will search for ECO2LSTE version 1 for a specified region of interest and datetime range.</p>
 <p>We need to change the resource url to look for <strong>granules</strong> instead of collections</p>
-<div class="cell">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>CMR_OPS<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="st">"granules"</span><span class="sc">}</span><span class="ss">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode" id="cb35"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>CMR_OPS<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="st">"granules"</span><span class="sc">}</span><span class="ss">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will search by <code>concept_id</code>, <code>temporal</code>, and <code>bounding_box</code>. Details about these search parameters can be found in the CMR API Documentation.</p>
 <p>The formatting of the values for each parameter is quite specific.<br>
 <strong>Temporal parameters</strong> are in ISO 8061 format <code>yyyy-MM-ddTHH:mm:ssZ</code>.<br>
 <strong>Bounding box coordinates</strong> are lower left longitude, lower left latitude, upper right longitude, upper right latitude.</p>
-<div class="cell">
-<div class="sourceCode" id="cb22"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>collection_id <span class="op">=</span> <span class="st">'C1534729776-LPDAAC_ECS'</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>date_range <span class="op">=</span> <span class="st">'2020-10-17T00:00:00Z,2020-11-18T23:59:59Z'</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">'-120.45264628,34.51050622,-120.40432448,34.53239876'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode" id="cb36"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>collection_id <span class="op">=</span> <span class="st">'C2076090826-LPCLOUD'</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>date_range <span class="op">=</span> <span class="st">'2022-04-01T00:00:00Z,2022-04-30T23:59:59Z'</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">'-120.45264628,34.51050622,-120.40432448,34.53239876'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url, </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'concept_id'</span>: collection_id,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'temporal'</span>: date_range,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'bounding_box'</span>: bbox,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'token'</span>: token,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'page_size'</span>: <span class="dv">200</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                            },</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>{</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'Accept'</span>: <span class="st">'application/json'</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                            }</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                       )</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.status_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode" id="cb37"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(url, </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                        params<span class="op">=</span>{</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'concept_id'</span>: collection_id,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'temporal'</span>: date_range,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'bounding_box'</span>: bbox,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'token'</span>: token,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">'page_size'</span>: <span class="dv">200</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                            },</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                        headers<span class="op">=</span>headers</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                       )</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.status_code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>200</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb24"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.headers[<span class="st">'CMR-Hits'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>granules <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> granule <span class="kw">in</span> granules:</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>granule[<span class="st">"data_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>granule[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>granule[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode" id="cb39"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response.headers[<span class="st">'CMR-Hits'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>1</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb26"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pprint(granules[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode" id="cb41"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>granules <span class="op">=</span> response.json()[<span class="st">'feed'</span>][<span class="st">'entry'</span>]</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> granule <span class="kw">in</span> granules:</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>granule[<span class="st">"data_center"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>granule[<span class="st">"dataset_id"</span>]<span class="sc">}</span><span class="ss"> | </span><span class="sc">{</span>granule[<span class="st">"id"</span>]<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>LPCLOUD | ECOSTRESS Tiled Land Surface Temperature and Emissivity Instantaneous L2 Global 70 m V002 | G2248838693-LPCLOUD</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode" id="cb43"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pprint(granules[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>{'boxes': ['34.207188 -120.828926 35.223133 -119.598442'],
+ 'browse_flag': True,
+ 'collection_concept_id': 'C2076090826-LPCLOUD',
+ 'coordinate_system': 'GEODETIC',
+ 'data_center': 'LPCLOUD',
+ 'dataset_id': 'ECOSTRESS Tiled Land Surface Temperature and Emissivity '
+               'Instantaneous L2 Global 70 m V002',
+ 'day_night_flag': 'NIGHT',
+ 'granule_size': '13.9612',
+ 'id': 'G2248838693-LPCLOUD',
+ 'links': [{'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.tif'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.tif',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/s3#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.json',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.json '
+                     '(VIEW RELATED INFORMATION)'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.json',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule (VIEW RELATED INFORMATION)'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.cmr.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.cmr.xml '
+                     '(EXTENDED METADATA)'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.cmr.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule (EXTENDED METADATA)'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#',
+            'title': 'api endpoint to retrieve temporary credentials valid for '
+                     'same-region direct s3 access (VIEW RELATED INFORMATION)'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.png',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.png'},
+           {'href': 's3://lp-prod-public/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01.png',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'Download '
+                     'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg.aux.xml'},
+           {'href': 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.jpeg.aux.xml',
+            'hreflang': 'en-US',
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/browse#',
+            'title': 'This link provides direct download access via S3 to the '
+                     'granule'},
+           {'href': 'https://search.earthdata.nasa.gov/search?q=ECO2LSTE+V002',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#'},
+           {'href': 'https://e4ftl01.cr.usgs.gov/ECOSTRESS/ECO2LSTE.002/',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/data#'},
+           {'href': 'https://doi.org/10.5067/ECOSTRESS/ECO_L2T_LSTE.002',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#'},
+           {'href': 'https://lpdaac.usgs.gov/',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/metadata#'},
+           {'href': 'https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_User_Guide_v6.pdf',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/documentation#'},
+           {'href': 'https://lpdaac.usgs.gov/sites/default/files/public/product_documentation/ECOSTRESS_ATBD_v1.pdf',
+            'hreflang': 'en-US',
+            'inherited': True,
+            'rel': 'http://esipfed.org/ns/fedsearch/1.1/documentation#'}],
+ 'online_access_flag': True,
+ 'orbit_calculated_spatial_domains': [{'start_orbit_number': '21241',
+                                       'stop_orbit_number': '21241'}],
+ 'original_format': 'ECHO10',
+ 'producer_granule_id': 'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01',
+ 'time_end': '2022-04-05T03:45:09.520Z',
+ 'time_start': '2022-04-05T03:40:09.520Z',
+ 'title': 'ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01',
+ 'updated': '2022-04-07T15:08:11.480Z'}</code></pre>
+</div>
+</div>
+</section>
+<section id="get-urls-to-cloud-data-assets" class="level2">
+<h2 class="anchored" data-anchor-id="get-urls-to-cloud-data-assets">Get URLs to cloud data assets</h2>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode" id="cb45"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>https_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">0</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'https'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>https_urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="28">
+<pre><code>['https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.tif']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode" id="cb47"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>s3_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">0</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'s3'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>s3_urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display" data-execution_count="29">
+<pre><code>['s3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_water.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_cloud.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_height.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_QC.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_LST_err.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01/ECOv002_L2T_LSTE_21241_015_10SGD_20220405T034009_0700_01_EmisWB.tif']</code></pre>
+</div>
 </div>
 
 
