@@ -187,6 +187,10 @@
     <a class="dropdown-item" href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_Clip_COG_Example.html">
  <span class="dropdown-text">Data Access - Direct S3 Access of Cloud Optimized GeoTIFF (COG) file</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../tutorials/Comparing_TNC_Tree_Data_to_ECOSTRESS.html">
+ <span class="dropdown-text">User Case - Comparing TNC Tree Data to ECOSTRESS</span></a>
+  </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Additional Resources</li>
         <li>
@@ -322,6 +326,11 @@
   <a href="../how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_Clip_COG_Example.html" class="sidebar-item-text sidebar-link">Data Access - Direct S3 Access of Cloud Optimized GeoTIFF (COG) file</a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorials/Comparing_TNC_Tree_Data_to_ECOSTRESS.html" class="sidebar-item-text sidebar-link">User Case - Comparing TNC Tree Data to ECOSTRESS</a>
+  </div>
+</li>
     </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -414,7 +423,7 @@
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>xr.set_options(keep_attrs<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot.xarray</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hvplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I’m going to use one of <code>xarray</code>’s tutorial datasets. In this case, air temperature from the NCEP reanalysis. I’ll assign the result of the <code>open_dataset</code> to <code>ds</code>. <em>I may change this to access a dataset directly</em></p>
 <div class="cell">
@@ -517,7 +526,8 @@
 </div>
 <p>This is a really short time series but as an example, let’s calculate a monthly climatology (at least for 2 months). For this we can use <code>groupby()</code></p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ds_clim <span class="op">=</span> ds_mon.groupby(ds_mon.time.dt.month).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ds_clim <span class="op">=</span> ds_mon.groupby(ds_mon.time.dt.month).mean()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ds_clim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="plot-results" class="level2">
