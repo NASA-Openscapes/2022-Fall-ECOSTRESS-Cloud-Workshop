@@ -9,7 +9,7 @@ author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA 
 
 ![](img/ecostress_banner.jpg)
 
-Welcome to the **2022 ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
+Welcome to the **2022 Fall test ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
 
 **The workshop will take place virtually daily on April 12 and 13, 2022 from 2pm-5:30pm PST [(UTC-7)](https://www.timeanddate.com/time/zones/pdt)**.
 
