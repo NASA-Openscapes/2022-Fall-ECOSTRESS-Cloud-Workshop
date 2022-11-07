@@ -1,16 +1,16 @@
 ---
-title: 01. Earthdata Search
+Earthdata Search
 ---
 
 This tutorial guides you through how to use [Earthdata Search](https://search.earthdata.nasa.gov/) for NASA Earth observations search and discovery, and how to connect the search output (e.g. download or access links) to a programmatic workflow (locally or from within the cloud).  
 
 ### Step 1. Go to Earthdata Search and Login  
 
-Go to Earthdata Search <https://search.earthdata.nasa.gov> and use your Earthdata login credentials to log in. If you do not have an Earthdata account, please see the [Workshop Prerequisites](https://nasa-openscapes.github.io/2021-Cloud-Workshop-AGU/logistics/prerequisites.html) for guidance.  
+Go to Earthdata Search <https://search.earthdata.nasa.gov> and use your Earthdata login credentials to log in. If you do not have an Earthdata account, please see the [Workshop Prerequisites](https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/prerequisites/) for guidance.  
 
 ### Step 2. Search for dataset of interest  
 
-Use the search box in the upper left to type key words. In this example we are interested in the [ECOSTRESS LSTE](https://search.earthdata.nasa.gov/search/granules?p=C2076090826-LPCLOUD&pg[0][v]=f&pg[0][gsk]=-start_date&q=LPCLOUD%20ECOSTRESS&tl=1649698992.323!3!!) which is managed by the LP DAAC and made available from the NASA Earthdata Cloud archive hosted in AWS cloud.  
+Use the search box in the upper left to type key words. In this example we are interested in the [ECOSTRESS LSTE](https://search.earthdata.nasa.gov/search/granules?p=C2076090826-LPCLOUD&pg[0][v]=f&pg[0][gsk]=-start_date&q=ECOSTRESS&ff=Available%20from%20AWS%20Cloud&tl=1666964694.567!3!!&lat=20.601562500000004&long=-71.3671875) which is managed by the LP DAAC and made available from the NASA Earthdata Cloud archive hosted in AWS cloud.  
 
 Type **ECOSTRESS** in the search bar Click on the **"Available from AWS Cloud"** filter option on the left.  
 
