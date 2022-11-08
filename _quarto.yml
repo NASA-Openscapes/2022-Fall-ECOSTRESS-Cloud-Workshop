@@ -31,7 +31,7 @@ website:
         - schedule.md
         - prerequisites/index.md 
         - section: "Access ECOSTRESS Data from a Web Interface"
-           contents: 
+          contents: 
             - href: tutorials/Earthdata_search.md
               text: "Earthdata Search Client"
             - href: tutorials/AppEEARS.md
