@@ -1,6 +1,4 @@
----
-Earthdata Search
----
+# Earthdata Search
 
 This tutorial guides you through how to use [Earthdata Search](https://search.earthdata.nasa.gov/) for NASA Earth observations search and discovery, and how to connect the search output (e.g. download or access links) to a programmatic workflow (locally or from within the cloud).  
 

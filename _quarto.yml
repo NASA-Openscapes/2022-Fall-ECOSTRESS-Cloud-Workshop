@@ -36,8 +36,6 @@ website:
               text: "Earthdata Search Client"
             - href: tutorials/AppEEARS.md
               text: "AppEEARS"
-              
-            - tutorials/index.md
         - section: "Access ECOSTRESS Data Programmatically"
           contents: 
             - tutorials/index.md
