@@ -1,5 +1,5 @@
 ---
-title: "2022 ECOSTRESS Cloud Workshop"
+title: "2022 Fall ECOSTRESS Cloud Workshop"
 subtitle: "Finding, accessing & analyzing ECOSTRESS data hosted in Earthdata Cloud"
  
 author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA Openscapes."
@@ -9,9 +9,9 @@ author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA 
 
 ![](img/ecostress_banner.jpg)
 
-Welcome to the **2022 ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
+Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
 
-**The workshop will take place virtually daily on April 12 and 13, 2022 from 2pm-5:30pm PST [(UTC-7)](https://www.timeanddate.com/time/zones/pdt)**.
+**The workshop will take place on November 15, 2022. 
 
 
 
@@ -30,10 +30,9 @@ The workshop will demonstrate how to find, access, and download ECOSTRESS v2 dat
 
 ### Workshop Outcomes
 
-At the end of the two days, participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting
+At the end of the workshop, participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting
 
-> **NOTE:** ECOSTRESS v2 data will only be available to approved individuals. Please work with Christine Lee (christine.m.lee@jpl.nasa.gov) to have your name added to the allowlist. 
 
 ## Acknowledgements
 
-2022 ECOSTRESS Cloud Workshop is hosted by NASA's LP DAAC with support from the NASA Openscapes Project, with cloud computing infrastructure by 2i2c. 
+2022 Fall ECOSTRESS Cloud Workshop is hosted by NASA's LP DAAC with support from the NASA Openscapes Project, with cloud computing infrastructure by 2i2c. 
