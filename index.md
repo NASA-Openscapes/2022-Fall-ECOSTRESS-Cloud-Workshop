@@ -11,7 +11,7 @@ author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA 
 
 Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
 
-**The workshop will take place on November 15, 2022. 
+**The workshop will take place on November 15, 2022.** 
 
 
 
@@ -30,7 +30,7 @@ The workshop will demonstrate how to find, access, and download ECOSTRESS v2 dat
 
 ### Workshop Outcomes
 
-At the end of the workshop, participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting
+At the end of the workshop, participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting.
 
 
 ## Acknowledgements

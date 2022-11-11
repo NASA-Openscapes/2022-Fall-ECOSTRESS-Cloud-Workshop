@@ -41,9 +41,7 @@ website:
             - tutorials/index.md
             - href: tutorials/Getting_started_setup.md
               text: "Getting Started"
-            - href: how-tos/authentication/NASA_Earthdata_Login_Token.ipynb
-              text: "NASA Earthdata Authentication - Generate EDL Token"
-            - href: how-tos/data-discovery/Data_Discovery_CMR_API_EDL_Token.ipynb 
+            - href: how-tos/data-discovery/Data_Discovery_CMR_API.ipynb 
               text: "Data Discovery - Finding Data with the CMR API"
             - href: how-tos/authentication/NASA_Earthdata_Authentication.ipynb
               text: "NASA Earthdata Authentication - Create netrc file"
