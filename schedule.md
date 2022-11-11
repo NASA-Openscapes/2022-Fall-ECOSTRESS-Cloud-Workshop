@@ -16,7 +16,7 @@ title: Schedule
 |[Earthdata Search Client (GUI)](tutorials/Earthdata_search.md) | Mahsa Jami (LP DAAC) |
 |[AppEEARS](tutorials/AppEEARS.md) | Mahsa Jami (LP DAAC) |
 |[Getting set up](tutorials/Getting_started_setup.md) | Mahsa Jami (LP DAAC) |
-|[Earthdata Cloud: Search and Discovery - CMR API](tutorials/Data_Discovery_CMR_API.ipynb) | Mahsa Jami (LP DAAC) | 
+|[Earthdata Cloud: Search and Discovery - CMR API](how-tos/data-discovery/Data_Discovery_CMR_API.ipynb) | Mahsa Jami (LP DAAC) | 
 |Earthdata Authentication: [Set up netrc file](how-tos/authentication/NASA_Earthdata_Authentication.ipynb) | Mahsa Jami (LP DAAC) | 
 |[Earthdata Cloud: Data Access](how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_Clip_COG_Example.ipynb) | Mahsa Jami (LP DAAC) | 
 |[Salt Marsh Use Case](tutorials/Carpinteria-ECOSTRESS-Analysis.ipynb) | Gregory Halverson (JPL) |
