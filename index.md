@@ -8,7 +8,7 @@ author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA 
 
 ![](img/ecostress_banner.jpg)
 
-Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive ([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
+Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive Center([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
 
 **The workshop will take place in-person on November 15, 2022 from 2:25pm-5:15pm PST [(UTC -8)](https://www.timeanddate.com/time/zones/pst)**.
 
@@ -22,14 +22,14 @@ The goal of the workshop is expose ECOSTRESS data users to ECOSTRESS version 2 (
 
 ### Workshop Description
 
-The goal of the workshop is expose ECOSTRESS data users to ECOSTRESS v2 data products in the cloud. Learning objectives focus on how to finda and access ECOSTRESS v2 data from Earthdata Cloud either by downloading or accessing the data on the cloud. The LP DAAC is the NASA archive for ECOSTRESS data products. ECOSTRESS v2 data products will hosted in the NASA Earthdata Cloud, hosted in AWS.
+The goal of the workshop is expose ECOSTRESS data users to ECOSTRESS v2 data products in the cloud. ECOSTRESS v2 data products will hosted in the NASA Earthdata Cloud, hosted in AWS and the LP DAAC is the NASA archive for ECOSTRESS data products. Learning objectives focus on how to find and access ECOSTRESS v2 data from Earthdata Cloud either by downloading or accessing the data on the cloud. 
 
-The workshop will demonstrate how to find, access, and download ECOSTRESS v2 data from the Earthdata Cloud. Participants will learn how to search for and download data from NASA’s Earthdata Search Client, a graphical user interface (GUI) for search, discovery, and download application for also EOSDIS data assets. Participants will also learn how to perform in-could data search, access, and processing routines where no data download is required, and data analysis can take place next to the data in the cloud. 
+The workshop will demonstrate how to find, access, and download ECOSTRESS v2 data from the Earthdata Cloud. Participants will learn how to search for and download data from NASA’s Earthdata Search Client, a graphical user interface (GUI) for search, discovery, and download application for also EOSDIS data assets. Participants will also learn about the Application for Extracting and Exploring Analysis Ready Samples ([AppEEARS](https://appeears.earthdatacloud.nasa.gov/) to get the ECOSTRESS V2 data. Participants will also learn how to perform in-could data search, access, and processing routines where no data download is required, and data analysis can take place next to the data in the cloud. 
 
 ### Workshop Outcomes
 
-At the end of the two days, participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting 
+Participants should be able to find and access ECOSTRESS v2 data in the NASA Earthdata Cloud (hosted in AWS). Workshop materials will be available for future reference following the completion of the workshop/ECOSTRESS Science Team meeting.
 
 ## Acknowledgements
 
-2022 ECOSTRESS Cloud Workshop is hosted by NASA's LP DAAC with support from the NASA Openscapes Project, with cloud computing infrastructure by 2i2c. 
+2022 Fall ECOSTRESS Cloud Workshop is hosted by NASA's LP DAAC with support from the NASA Openscapes Project, with cloud computing infrastructure by 2i2c. 
