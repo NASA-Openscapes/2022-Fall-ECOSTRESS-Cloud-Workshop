@@ -28,8 +28,8 @@ website:
           contents:
             - index.md
             - schedule.md
-        - cloud-paradigm.md
         - prerequisites/index.md 
+        - cloud-paradigm.md
         - section: "Access ECOSTRESS Data from a Web Interface"
           contents: 
             - href: tutorials/Earthdata_search.md
