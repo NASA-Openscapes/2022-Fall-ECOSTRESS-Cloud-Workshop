@@ -27,8 +27,8 @@ website:
         - section: "Welcome"
           contents:
             - index.md
-            - cloud-paradigm.md
-        - schedule.md
+            - schedule.md
+        - cloud-paradigm.md
         - prerequisites/index.md 
         - section: "Access ECOSTRESS Data from a Web Interface"
           contents: 
