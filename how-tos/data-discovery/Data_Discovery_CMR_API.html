@@ -1229,30 +1229,30 @@ LPCLOUD | ECOv002_L2T_LSTE_24560_013_10SGC_20221104T151052_0710_01 | G2543740062
 </section>
 <section id="get-urls-to-cloud-data-assets" class="level2">
 <h2 class="anchored" data-anchor-id="get-urls-to-cloud-data-assets">Get URLs to cloud data assets</h2>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>https_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">0</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'https'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>https_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">13</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'https'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>https_urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
-<pre><code>['https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_water.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_cloud.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_height.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_QC.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_LST.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_LST_err.tif',
- 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01/ECOv002_L2T_LSTE_24418_001_11SKT_20221026T105945_0710_01_EmisWB.tif']</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>['https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_water.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_cloud.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_height.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_QC.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_LST.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_LST_err.tif',
+ 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_EmisWB.tif']</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>s3_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">25</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'s3'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>s3_urls <span class="op">=</span> [l[<span class="st">'href'</span>] <span class="cf">for</span> l <span class="kw">in</span> granules[<span class="dv">13</span>][<span class="st">'links'</span>] <span class="cf">if</span> <span class="st">'s3'</span> <span class="kw">in</span> l[<span class="st">'href'</span>] <span class="kw">and</span> <span class="st">'.tif'</span> <span class="kw">in</span> l[<span class="st">'href'</span>]]</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>s3_urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
-<pre><code>['s3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_water.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_cloud.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_height.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_QC.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_LST.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_LST_err.tif',
- 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01/ECOv002_L2T_LSTE_24514_012_11SKU_20221101T155816_0710_01_EmisWB.tif']</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>['s3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_water.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_cloud.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_height.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_QC.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_LST.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_LST_err.tif',
+ 's3://lp-prod-protected/ECO_L2T_LSTE.002/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01/ECOv002_L2T_LSTE_24479_001_11SKU_20221030T092522_0710_01_EmisWB.tif']</code></pre>
 </div>
 </div>
 
