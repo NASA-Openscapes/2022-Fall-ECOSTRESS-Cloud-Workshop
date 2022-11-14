@@ -12,7 +12,8 @@ Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Pr
 
 **The workshop will take place in-person on November 15, 2022 from 2:25pm-5:15pm PST [(UTC -8)](https://www.timeanddate.com/time/zones/pst)**.
 
-**GET STARTED**: [Deploy Jupyter Lab instance in 2i2c](https://openscapes.2i2c.cloud/hub/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNASA-Openscapes%2F2022-Fall-ECOSTRESS-Cloud-Workshop&urlpath=lab%2Ftree%2F2022-Fall-ECOSTRESS-Cloud-Workshop%2FREADME.md&branch=main)
+**GET STARTED**: [Deploy Jupyter Lab instance in 2i2c](https://openscapes.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNASA-Openscapes%2F2022-ECOSTRESS-Cloud-Workshop&urlpath=lab%2Ftree%2F2022-ECOSTRESS-Cloud-Workshop%2FREADME.md&branch=main)
+
 
 ## About
 

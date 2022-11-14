@@ -8,4 +8,4 @@ Hands-on exercises will be executed from a [Jupyter Lab instance in 2i2c](https:
 
 Tutorials are markdown (`.md`) and Jupyter (`.ipynb`) notebooks, and are available on GitHub:  
 
-<https://github.com/NASA-Openscapes/2022-Fall-ECOSTRESS-Cloud-Workshop/tree/main/tutorials>.
+<https://github.com/NASA-Openscapes/2022-Fall-ECOSTRESS-Cloud-Workshop/>.

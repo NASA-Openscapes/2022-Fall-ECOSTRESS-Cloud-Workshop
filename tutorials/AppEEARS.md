@@ -4,8 +4,6 @@
 
 The Application for Extracting and Exploring Analysis Ready Samples ([AppEEARS](https://appeears.earthdatacloud.nasa.gov/)) offers a simple and efficient way to access and transform geospatial data from a variety of federal data archives in an easy-to-use web application interface. AppEEARS enables users to subset geospatial data spatially, temporally, and by band/layer for point and area samples. AppEEARS returns not only the requested data, but also the associated quality values, and offers interactive visualizations with summary statistics in the web interface. This tutorial shows how to use AppEEARS to access ECOSTRESS version 2 data hosted in the cloud.
 
-![*Figure caption: AppEEARS Overview*](../img/AppEEARSOverview.png)
-
 ### Step 1. Sign in 
 
 Sign in using your Earthdata login credentials. If you do not have an Earthdata account, please see the [Workshop Prerequisites](https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/prerequisites/) for guidance.  
