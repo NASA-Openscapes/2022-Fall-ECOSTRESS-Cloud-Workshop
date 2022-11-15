@@ -10,10 +10,10 @@ author: "This Workshop is hosted by NASA LP DAAC and JPL with support from NASA 
 
 Welcome to the **2022 Fall ECOSTRESS Cloud Workshop** hosted by NASA’s Land Processes Distributed Activate Archive Center([LP DAAC]( https://lpdaac.usgs.gov/)) with support from [NASA Openscapes](https://nasa-openscapes.github.io/).
 
-**The workshop will take place in-person on November 15, 2022 from 2:25pm-5:15pm PST [(UTC -8)](https://www.timeanddate.com/time/zones/pst)**.
-**GET STARTED**: 
-- [Deploy Jupyter Lab instance in 2i2c](https://openscapes.2i2c.cloud/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNASA-Openscapes%2F2022-ECOSTRESS-Cloud-Workshop&urlpath=lab%2Ftree%2F2022-ECOSTRESS-Cloud-Workshop%2FREADME.md&branch=main)
-- [Access notebooks without cloning](https://openscapes.2i2c.cloud/hub/user-redirect/lab/tree/shared/01_ECOSTRESS%202022%20FALL%20WORKSHOP)
+**The workshop will take place in-person on November 15, 2022 from 2:25pm-5:15pm PST [(UTC -8)](https://www.timeanddate.com/time/zones/pst)**.   
+**GET STARTED**:    
+- [Deploy Jupyter Lab instance in 2i2c](https://openscapes.2i2c.cloud/hub/user-redirect/lab/tree/shared/01_ECOSTRESS%202022%20FALL%20WORKSHOP/2022-Fall-ECOSTRESS-Cloud-Workshop)   
+- [Access notebooks without cloning](https://openscapes.2i2c.cloud/hub/user-redirect/lab/tree/shared/01_ECOSTRESS%202022%20FALL%20WORKSHOP)   
 
 
 
