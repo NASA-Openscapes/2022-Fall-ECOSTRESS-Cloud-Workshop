@@ -30,7 +30,7 @@ title: Schedule
 
 ## Getting help during the Workshop
 
-We will use the ECOSTRESS Slack Workspace as our main channels for help. Please use Slack to post questions. 
+Please use the webex chat platform to ask any questions you have during the workshop.
 
 
 
