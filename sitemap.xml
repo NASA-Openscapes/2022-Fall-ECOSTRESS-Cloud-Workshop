@@ -2,122 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/index.html</loc>
-    <lastmod>2022-11-14T07:18:45.365Z</lastmod>
+    <lastmod>2022-11-15T16:02:56.022Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/schedule.html</loc>
-    <lastmod>2022-11-14T07:18:46.593Z</lastmod>
+    <lastmod>2022-11-15T16:02:58.138Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/further-resources.html</loc>
-    <lastmod>2022-11-14T07:18:47.065Z</lastmod>
+    <lastmod>2022-11-15T16:02:58.562Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/prerequisites/index.html</loc>
-    <lastmod>2022-11-14T07:18:47.477Z</lastmod>
+    <lastmod>2022-11-15T16:02:58.946Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/cloud-paradigm.html</loc>
-    <lastmod>2022-11-14T07:18:47.869Z</lastmod>
+    <lastmod>2022-11-15T16:02:59.310Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/index.html</loc>
-    <lastmod>2022-11-14T07:18:48.257Z</lastmod>
+    <lastmod>2022-11-15T16:02:59.674Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/additional_resources/Finding_collection_s3_location.html</loc>
-    <lastmod>2022-11-14T07:18:48.677Z</lastmod>
+    <lastmod>2022-11-15T16:03:00.058Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/additional_resources/Data_Discovery_CMR-STAC_API.html</loc>
-    <lastmod>2022-11-14T07:18:50.493Z</lastmod>
+    <lastmod>2022-11-15T16:03:01.594Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/additional_resources/On-prem_Cloud_example.html</loc>
-    <lastmod>2022-11-14T07:18:51.337Z</lastmod>
+    <lastmod>2022-11-15T16:03:02.358Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/additional_resources/Data_Discovery_CMR_API.html</loc>
-    <lastmod>2022-11-14T07:18:51.949Z</lastmod>
+    <lastmod>2022-11-15T16:03:02.938Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/AppEEARS.html</loc>
-    <lastmod>2022-11-14T07:18:52.373Z</lastmod>
+    <lastmod>2022-11-15T16:03:03.358Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/Getting_started_setup.html</loc>
-    <lastmod>2022-11-14T07:18:52.877Z</lastmod>
+    <lastmod>2022-11-15T16:03:03.830Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/Carpinteria-ECOSTRESS-Analysis.html</loc>
-    <lastmod>2022-11-14T07:18:53.621Z</lastmod>
+    <lastmod>2022-11-15T16:03:04.526Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/Intro_xarray_hvplot.html</loc>
-    <lastmod>2022-11-14T07:18:55.497Z</lastmod>
+    <lastmod>2022-11-15T16:03:06.102Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/tutorials/Earthdata_search.html</loc>
-    <lastmod>2022-11-14T07:18:55.965Z</lastmod>
+    <lastmod>2022-11-15T16:03:06.530Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/authentication/NASA_Earthdata_Login_Token.html</loc>
-    <lastmod>2022-11-14T07:18:56.433Z</lastmod>
+    <lastmod>2022-11-15T16:03:06.942Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/authentication/NASA_Earthdata_Authentication.html</loc>
-    <lastmod>2022-11-14T07:18:57.121Z</lastmod>
+    <lastmod>2022-11-15T16:03:07.562Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Earthdata_Cloud__Single_File__Direct_S3_Access_COG_Example.html</loc>
-    <lastmod>2022-11-14T07:18:57.629Z</lastmod>
+    <lastmod>2022-11-15T16:03:08.038Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Earthdata_Cloud__Single_File__Direct_S3_Access_NetCDF4_Example.html</loc>
-    <lastmod>2022-11-14T07:18:58.109Z</lastmod>
+    <lastmod>2022-11-15T16:03:08.482Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Direct_Access_netCDF_simple.html</loc>
-    <lastmod>2022-11-14T07:18:58.593Z</lastmod>
+    <lastmod>2022-11-15T16:03:08.930Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Earthdata_Cloud__Open-Science-Tutorial.html</loc>
-    <lastmod>2022-11-14T07:19:13.553Z</lastmod>
+    <lastmod>2022-11-15T16:03:20.938Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Multi-File_Direct_S3_Access_NetCDF_Example.html</loc>
-    <lastmod>2022-11-14T07:19:14.153Z</lastmod>
+    <lastmod>2022-11-15T16:03:21.450Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Multi-File_Direct_S3_Access_COG_Example.html</loc>
-    <lastmod>2022-11-14T07:19:14.582Z</lastmod>
+    <lastmod>2022-11-15T16:03:21.846Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/additional_resources/Earthdata_Cloud__Data_Access_OPeNDAP_Example.html</loc>
-    <lastmod>2022-11-14T07:19:16.946Z</lastmod>
+    <lastmod>2022-11-15T16:03:23.878Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/data_access/Earthdata_Cloud__Single_File__HTTPS_Access_COG_Example.html</loc>
-    <lastmod>2022-11-14T07:19:18.366Z</lastmod>
+    <lastmod>2022-11-15T16:03:25.098Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/data_access/Earthdata_Cloud__Single_File__Direct_S3_Access_Clip_COG_Example.html</loc>
-    <lastmod>2022-11-14T07:19:23.846Z</lastmod>
+    <lastmod>2022-11-15T16:03:29.634Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/data_access/Intro_xarray_hvplot.html</loc>
-    <lastmod>2022-11-14T07:19:25.766Z</lastmod>
+    <lastmod>2022-11-15T16:03:31.250Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/how-tos/data-discovery/Data_Discovery_CMR_API.html</loc>
-    <lastmod>2022-11-14T07:19:26.430Z</lastmod>
+    <lastmod>2022-11-15T16:03:31.858Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/external/cof-zarr-reformat.html</loc>
-    <lastmod>2022-11-14T07:19:26.990Z</lastmod>
+    <lastmod>2022-11-15T16:03:32.378Z</lastmod>
   </url>
   <url>
     <loc>https://nasa-openscapes.github.io/2022-Fall-ECOSTRESS-Cloud-Workshop/external/zarr-eosdis-store.html</loc>
-    <lastmod>2022-11-14T07:19:27.446Z</lastmod>
+    <lastmod>2022-11-15T16:03:32.786Z</lastmod>
   </url>
 </urlset>
